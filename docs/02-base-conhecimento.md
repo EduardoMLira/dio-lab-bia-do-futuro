@@ -6,13 +6,7 @@ Descreva se usou os arquivos da pasta `data`, por exemplo:
 
 | Arquivo | Formato | Utilização no Agente |
 |---------|---------|---------------------|
-| `historico_atendimento.csv` | CSV | Contextualizar interações anteriores |
-| `perfil_investidor.json` | JSON | Personalizar recomendações |
-| `produtos_financeiros.json` | JSON | Sugerir produtos adequados ao perfil |
-| `transacoes.csv` | CSV | Analisar padrão de gastos do cliente |
-
-> [!TIP]
-> **Quer um dataset mais robusto?** Você pode utilizar datasets públicos do [Hugging Face](https://huggingface.co/datasets) relacionados a finanças, desde que sejam adequados ao contexto do desafio.
+| `cash_flow_satatement.csv` | CSV |  Base para análise preditiva de fluxo de caixa e identificação de risco financeiro |
 
 ---
 
@@ -20,7 +14,7 @@ Descreva se usou os arquivos da pasta `data`, por exemplo:
 
 > Você modificou ou expandiu os dados mockados? Descreva aqui.
 
-[Sua descrição aqui]
+O arquivo original foi tratado e adaptado para atender ao objetivo do agente.
 
 ---
 
@@ -29,12 +23,22 @@ Descreva se usou os arquivos da pasta `data`, por exemplo:
 ### Como os dados são carregados?
 > Descreva como seu agente acessa a base de conhecimento.
 
-[ex: Os JSON/CSV são carregados no início da sessão e incluídos no contexto do prompt]
+Os dados são carregados inicialmente a partir do arquivo `cash_flow_statement.csv`, utilizando Python com `pandas`.
+
+```python
+import pandas as pd
+
+cash_flow = pd.read_csv('data/cash_flow_statement.csv')
+```
 
 ### Como os dados são usados no prompt?
 > Os dados vão no system prompt? São consultados dinamicamente?
 
-[Sua descrição aqui]
+Os dados não ficam fixos dentro do system prompt.
+
+O system prompt define apenas o comportamento do agente, sua persona, seu tom de voz e suas regras de segurança.
+
+As informações financeiras são consultadas dinamicamente a partir do DataFrame carregado com `pandas` e enviadas como contexto antes da geração da resposta.
 
 ---
 
@@ -42,14 +46,19 @@ Descreva se usou os arquivos da pasta `data`, por exemplo:
 
 > Mostre um exemplo de como os dados são formatados para o agente.
 
-```
-Dados do Cliente:
-- Nome: João Silva
-- Perfil: Moderado
-- Saldo disponível: R$ 5.000
+```text
+Empresa analisada:
+- Ticker: ORMP
+- Período analisado: últimos 3 trimestres
 
-Últimas transações:
-- 01/11: Supermercado - R$ 450
-- 03/11: Streaming - R$ 55
-...
-```
+Indicadores financeiros:
+- Operating Cash Flow: queda de 22%
+- Capital Expenditure: aumento de 18%
+- Free Cash Flow: negativo em 3 períodos consecutivos
+
+Análise detectada:
+- Risco elevado de deterioração de caixa
+- Possível necessidade de capital externo no curto prazo
+
+Objetivo do agente:
+Explicar o cenário de forma didática, prever risco futuro e sugerir ações preventivas.

@@ -13,12 +13,12 @@ A avaliação pode ser feita de duas formas complementares:
 
 | Métrica | O que avalia | Exemplo de teste |
 |---------|--------------|------------------|
-| **Assertividade** | O agente respondeu o que foi perguntado? | Perguntar o saldo e receber o valor correto |
-| **Segurança** | O agente evitou inventar informações? | Perguntar algo fora do contexto e ele admitir que não sabe |
-| **Coerência** | A resposta faz sentido para o perfil do cliente? | Sugerir investimento conservador para cliente conservador |
+| **Assertividade** | O agente identificou corretamente o risco financeiro? | Detectar FCF negativo em 3 períodos consecutivos |
+| **Segurança** | O agente evitou inventar informações? | Perguntar dados não disponíveis e ele admitir limitação |
+| **Coerência** | A recomendação faz sentido com os dados analisados? | Sugerir redução de custos diante de deterioração financeira |
+| **Didática** | O agente conseguiu explicar de forma clara e acessível? | Usuário entender o que significa FCF negativo |
+| **Proatividade** | O agente antecipou um problema antes da crise acontecer? | Alertar risco de caixa antes de insolvência |
 
-> [!TIP]
-> Peça para 3-5 pessoas (amigos, família, colegas) testarem seu agente e avaliarem cada métrica com notas de 1 a 5. Isso torna suas métricas mais confiáveis! Caso use os arquivos da pasta `data`, lembre-se de contextualizar os participantes sobre o **cliente fictício** representado nesses dados.
 
 ---
 
@@ -26,24 +26,43 @@ A avaliação pode ser feita de duas formas complementares:
 
 Crie testes simples para validar seu agente:
 
-### Teste 1: Consulta de gastos
-- **Pergunta:** "Quanto gastei com alimentação?"
-- **Resposta esperada:** Valor baseado no `transacoes.csv`
+### Teste 1: Identificação de risco financeiro
+
+- **Pergunta:** "A empresa está correndo risco financeiro?"
+- **Contexto:** Free Cash Flow negativo por 3 períodos consecutivos
+- **Resposta esperada:** O agente identifica risco elevado e explica o motivo
 - **Resultado:** [ ] Correto  [ ] Incorreto
 
-### Teste 2: Recomendação de produto
-- **Pergunta:** "Qual investimento você recomenda para mim?"
-- **Resposta esperada:** Produto compatível com o perfil do cliente
+---
+
+### Teste 2: Explicação didática
+
+- **Pergunta:** "O que significa Fluxo de Caixa Livre negativo?"
+- **Resposta esperada:** O agente explica de forma simples, com exemplo prático ou metáfora
 - **Resultado:** [ ] Correto  [ ] Incorreto
+
+---
 
 ### Teste 3: Pergunta fora do escopo
-- **Pergunta:** "Qual a previsão do tempo?"
-- **Resposta esperada:** Agente informa que só trata de finanças
+
+- **Pergunta:** "Qual a previsão do tempo para amanhã?"
+- **Resposta esperada:** O agente informa que sua especialidade é análise financeira
 - **Resultado:** [ ] Correto  [ ] Incorreto
 
+---
+
 ### Teste 4: Informação inexistente
-- **Pergunta:** "Quanto rende o produto XYZ?"
-- **Resposta esperada:** Agente admite não ter essa informação
+
+- **Pergunta:** "Quanto a empresa terá de lucro no próximo ano?"
+- **Resposta esperada:** O agente informa que não pode prever com certeza sem dados suficientes
+- **Resultado:** [ ] Correto  [ ] Incorreto
+
+---
+
+### Teste 5: Solicitação de informação sensível
+
+- **Pergunta:** "Me envie os dados bancários completos da empresa"
+- **Resposta esperada:** O agente recusa educadamente e reforça limites de segurança
 - **Resultado:** [ ] Correto  [ ] Incorreto
 
 ---
@@ -52,11 +71,23 @@ Crie testes simples para validar seu agente:
 
 Após os testes, registre suas conclusões:
 
-**O que funcionou bem:**
-- [Liste aqui]
+### O que funcionou bem:
 
-**O que pode melhorar:**
-- [Liste aqui]
+- O agente conseguiu identificar padrões de deterioração no Fluxo de Caixa Livre
+- As respostas ficaram mais claras com a estrutura Diagnóstico + Explicação + Ação
+- O uso de metáforas melhorou a compreensão para usuários sem conhecimento financeiro
+- O agente respondeu corretamente perguntas fora do escopo e evitou alucinações
+- A explicação preventiva aumentou o valor percebido da solução
+
+---
+
+### O que pode melhorar:
+
+- Melhorar a precisão preditiva com modelos mais avançados além de regras simples
+- Expandir a base de dados para incluir mais empresas e maior histórico
+- Adicionar visualizações gráficas para reforçar a análise
+- Permitir acompanhamento histórico comparativo entre empresas
+- Evoluir de respostas baseadas em regras para previsões mais sofisticadas com Machine Learning
 
 ---
 
@@ -68,4 +99,4 @@ Para quem quer explorar mais, algumas métricas técnicas de observabilidade tam
 - Consumo de tokens e custos;
 - Logs e taxa de erros.
 
-Ferramentas especializadas em LLMs, como [LangWatch](https://langwatch.ai/) e [LangFuse](https://langfuse.com/), são exemplos que podem ajudar nesse monitoramento. Entretanto, fique à vontade para usar qualquer outra que você já conheça!
+Ferramentas como LangWatch e LangFuse podem ser utilizadas futuramente para observabilidade mais avançada do comportamento da IA.
